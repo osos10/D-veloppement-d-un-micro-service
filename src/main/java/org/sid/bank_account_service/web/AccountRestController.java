@@ -3,26 +3,23 @@ package org.sid.bank_account_service.web;
 import org.sid.bank_account_service.dto.BankAccountRequestDTO;
 import org.sid.bank_account_service.dto.BankAccountResponseDTO;
 import org.sid.bank_account_service.entities.BankAccount;
-import org.sid.bank_account_service.mappers.AccountMapper;
 import org.sid.bank_account_service.repoitories.BankAccountRepository;
 import org.sid.bank_account_service.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
 public class AccountRestController {
-    //@Autowired
-    private BankAccountRepository bankAccountRepository;
-    private AccountService accountService;
-    private AccountMapper accountMapper;
+    private final BankAccountRepository bankAccountRepository;
+    private final AccountService accountService;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository) {
+    // accountService doit etre injecte : save() l'utilise (sinon NullPointerException)
+    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService) {
         this.bankAccountRepository = bankAccountRepository;
+        this.accountService = accountService;
     }
     @GetMapping("/bankAccounts")
     public List<BankAccount> bankAccount(){
